@@ -6,7 +6,7 @@ from typing import List
 import logging
 
 
-#fields to be redacted
+# # fields to be redacted
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 
