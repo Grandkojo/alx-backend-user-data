@@ -27,8 +27,9 @@ def get_logger() -> logging.Logger:
     logger = logging.getLogger('user_data')
     logger.setLevel(logging.INFO)
     logger.propagate = False
-    logger.addHandler(logging.StreamHandler()
-                      .setFormatter(RedactingFormatter(list(PII_FIELDS))))
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
+    logger.addHandler(stream_handler)
     return logger
 
 
@@ -51,7 +52,8 @@ class RedactingFormatter(logging.Formatter):
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
-    """Returns a connector object to a database."""
+    """Returns a connector object to a database.
+    """
     username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
     host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
@@ -63,3 +65,21 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
             'database': db_name
             }
     return mysql.connector.connect(**config)
+
+
+def main() -> None:
+    """main function to filter data"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    field_names = [col[0] for col in cursor.description]
+    logger = get_logger()
+    for row in cursor:
+        str_row = ''.join(f'{f}={str(r)}; ' for r, f in zip(row, field_names))
+        logger.info(str_row.strip())
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
