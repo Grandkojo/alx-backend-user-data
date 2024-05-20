@@ -34,6 +34,7 @@ def unauthorized_user() -> str:
     """
     abort(401)
 
+
 @app_views.route('/forbidden', methods=["GET"], strict_slashes=False)
 def forbidden_user() -> str:
     """ GEt /api/vi/forbidden
