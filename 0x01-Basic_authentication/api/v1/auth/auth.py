@@ -29,4 +29,3 @@ class Auth:
         Returns: None
         """
         return None
-
