@@ -30,18 +30,17 @@ def before_user_request():
     if auth is None:
         return
     if not auth.require_auth(request.path, ['/api/v1/status/',
-                                                     '/api/v1/unauthorized/',
-                                                     '/api/v1/forbidden/']):
+                                            '/api/v1/unauthorized/',
+                                            '/api/v1/forbidden/']):
         return
 
     auth_header = auth.authorization_header(request)
     if auth_header is None:
         abort(401)
 
-    auth_cur_user =  auth.current_user(request)
+    auth_cur_user = auth.current_user(request)
     if auth_cur_user is None:
         abort(403)
-
 
 
 @app.errorhandler(404)
