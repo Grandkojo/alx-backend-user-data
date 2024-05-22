@@ -29,4 +29,3 @@ class SessionAuth(Auth):
             return None
 
         return SessionAuth.user_id_by_session_id.get(session_id)
-
