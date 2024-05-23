@@ -31,14 +31,14 @@ class SessionAuth(Auth):
 
         return SessionAuth.user_id_by_session_id.get(session_id)
 
-    def current_user(self, request=None):
+    def current_user(self, request=None) -> str:
         """ returns a user instance based on a cookie value
         """
         session_id = self.session_cookie(request)
         user_id_for_session = self.user_id_for_session_id(session_id)
         return User.get(user_id_for_session)
 
-    def destroy_session(self, request=None):
+    def destroy_session(self, request=None) -> str:
         """ destroy the user session
         """
         if request is None or self.session_cookie(request) is None:
