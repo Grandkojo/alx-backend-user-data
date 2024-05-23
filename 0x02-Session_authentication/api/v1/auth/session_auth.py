@@ -44,7 +44,7 @@ class SessionAuth(Auth):
         if request is None or self.session_cookie(request) is None:
             return False
         user_session = self.session_cookie(request)
-        if self.user_id_for_Session_id (user_session) is None:
+        if self.user_id_for_session_id(user_session) is None:
             return False
-        del self.user_id_for_session[user_session]
+        del self.user_id_by_session_id[user_session]
         return True
