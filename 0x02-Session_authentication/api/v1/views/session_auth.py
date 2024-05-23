@@ -31,4 +31,3 @@ def handle_session_auth():
             out.set_cookie(os.getenv("SESSION_NAME"), session_id)
             return out
     return jsonify({"error": "wrong password"}), 401
-
