@@ -10,7 +10,7 @@ import os
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def handle_session_auth():
+def handle_session_auth() -> str:
     """ handle all session authentication
     """
     email = request.form.get('email', None)
@@ -33,7 +33,7 @@ def handle_session_auth():
     return jsonify({"error": "wrong password"}), 401
 
 @app_views.route('/auth_session/logout/', methods=['DELETE'], strict_slashes=False)
-def delete_session():
+def delete_session() -> str:
     """ delete the user session
     """
     from api.v1.app import auth
