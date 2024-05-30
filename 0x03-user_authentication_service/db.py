@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 """DB module
 """
+
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
-
 from user import Base
 from user import User
+import logging
+
+
+logging.basicConfig()
+logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
 
 
 class DB:
@@ -52,3 +58,14 @@ class DB:
         if not user:
             return NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ update a user id with arbitrary argumnets
+        """
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+            raise ValueError
+        self._session.commit()
+        return None
