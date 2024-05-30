@@ -11,11 +11,6 @@ from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base
 from user import User
-import logging
-
-
-logging.basicConfig()
-logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
 
 
 class DB:
